@@ -1,41 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { toPng } from "html-to-image";
-
-interface UnsplashPhoto {
-  id: string;
-  urls: {
-    regular: string;
-    full: string;
-  };
-  user: {
-    name: string;
-    links: {
-      html: string;
-    };
-  };
-}
-
-const GOOGLE_FONTS = [
-  { name: "Sora (Elegant & Modern)", value: "Sora, sans-serif" },
-  { name: "Montserrat (Urban & Clean)", value: "Montserrat, sans-serif" },
-  { name: "Lato (Neat & Balanced)", value: "Lato, sans-serif" },
-  { name: "Noto Sans HK (Simple & Minimal)", value: "Noto Sans HK, sans-serif" },
-  { name: "Merriweather (Serious & Editorial)", value: "Merriweather, serif" },
-  { name: "Cinzel (Classical & Premium)", value: "Cinzel, serif" },
-  { name: "Inconsolata (Typewriter & Monospace)", value: "Inconsolata, monospace" },
-  { name: "Lobster (Creative & Playful)", value: "Lobster, cursive" },
-];
-
-const COLOR_PRESETS = [
-  { name: "LinkedIn Blue", value: "#0a66c2" },
-  { name: "Turquoise", value: "#00AEB3" },
-  { name: "Emerald Green", value: "#2ecc71" },
-  { name: "Sunset Orange", value: "#f47b16" },
-  { name: "Ruby Red", value: "#EC4339" },
-  { name: "Royal Purple", value: "#8C68CB" },
-  { name: "Coral Pink", value: "#ED4795" },
-  { name: "Golden Glow", value: "#f1c40f" },
-];
+import { COLOR_PRESETS, GOOGLE_FONTS } from "./shared/consts";
+import { UnsplashPhoto } from "./shared/interfaces";
+import { CoverPreview } from "./components/CoverPreview";
+import { useCoverStore } from "./store/useCoverStore";
 
 export default function App() {
   // Personal Details
@@ -72,6 +40,8 @@ export default function App() {
   const previewContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const updateField = useCoverStore((state) => state.updateField);
+
   // Load Unsplash Photo
   const fetchUnsplashPhoto = async (queryStr: string = "") => {
     setLoading(true);
@@ -90,6 +60,21 @@ export default function App() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    updateField("backgroundUrl", getBgImageSrc());
+  }, [bgSource, uploadedFile, customUrl, unsplashPhoto]);
+
+  useEffect(() => {
+    updateField("firstName", firstName);
+    updateField("lastName", lastName);
+    updateField("jobTitle", jobTitle);
+    updateField("email", email);
+    updateField("phone", phone);
+    updateField("dividerColor", dividerColor);
+    updateField("font", fontFamily);
+    updateField("rightPanelOpacity", panelOpacity);
+  }, [firstName, lastName, jobTitle, email, phone, dividerColor, fontFamily, panelOpacity]);
 
   useEffect(() => {
     fetchUnsplashPhoto(unsplashQuery);
@@ -540,43 +525,7 @@ export default function App() {
                 }}
               >
                 {/* Core cover element which is captured during export */}
-                <div
-                  ref={coverRef}
-                  id="linkedin-cover"
-                  className="linkedin-cover-element"
-                  style={{
-                    fontFamily: fontFamily,
-                  }}
-                >
-                  {/* Background Image */}
-                  <img className="cover-bg-image" src={getBgImageSrc()} alt="Cover Background" crossOrigin="anonymous" />
-
-                  {/* Aspect crop helper (not visible but sets layout boundary) */}
-                  <div className="cover-border-frame"></div>
-
-                  {/* Personal details right-hand card */}
-                  <div
-                    className="right-info-panel"
-                    style={{
-                      backgroundColor: getPanelBgColor(),
-                    }}
-                  >
-                    <h4 className="name-header first-name">{firstName || "Shay"}</h4>
-                    <h4 className="name-header last-name">{lastName || "Doron"}</h4>
-
-                    <div
-                      className="accent-divider"
-                      style={{
-                        backgroundColor: dividerColor,
-                        width: `${dividerWidth}%`,
-                      }}
-                    ></div>
-
-                    <h5 className="title-text">{jobTitle || "Developer"}</h5>
-                    <h5 className="contact-text email">{email || "email@example.com"}</h5>
-                    <h5 className="contact-text phone">{phone || "050-0000000"}</h5>
-                  </div>
-                </div>
+                <CoverPreview ref={coverRef} />
 
                 {/* LinkedIn Avatar Mockup Overlay */}
                 {showMockup && (
