@@ -1,20 +1,30 @@
-# Getting Started
-Install the dependencies and run the project in watch mode
-```
-npm install
-npm run build # or watch to rebuild on change
-open index.html
-```
-Note that using Webpack is obselete and this archive has been provided
-for compatibility reasons. Prefer using Vite, check it at https://vitejs.dev
-## About Scrimba
+# LinkedIn Cover Creator
 
-At Scrimba our goal is to create the best possible coding school at the cost of a gym membership! 💜
-If we succeed with this, it will give anyone who wants to become a software developer a realistic shot at succeeding, regardless of where they live and the size of their wallets 🎉
-The Fullstack Developer Path aims to teach you everything you need to become a Junior Developer, or you could take a deep-dive with one of our advanced courses 🚀
+This project is a React-based web application that allows you to easily create and customize a professional LinkedIn cover photo. You can search for background images, add your personal details, customize the design, and download the final image in the exact dimensions required for LinkedIn (1584x396).
 
-- [Our courses](https://scrimba.com/courses)
+## Getting Started
+
+This project is built with React and Vite. To run it locally:
+
+1. Clone the repository to your local machine.
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Acknowledgments & Credits
+
+This project was inspired by and built upon a foundational project from [Scrimba](https://scrimba.com/).
+**Lesson Path:** Fullstack Path / Launching Your Career / Adding an awesome LinkedIn cover image
+
+As a student of their platform, I used their original starter code as a base and evolved it into this application. I want to express my huge thanks to the Scrimba team for the original idea, the great learning experience, and the initial code base! 💜
+
+If you are looking to learn web development, I highly recommend checking out:
+- [Scrimba Courses](https://scrimba.com/courses)
 - [The Frontend Career Path](https://scrimba.com/fullstack-path-c0fullstack)
-- [Become a Scrimba Pro member](https://scrimba.com/pricing)
 
 Happy Coding!
