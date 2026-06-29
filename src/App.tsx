@@ -2,22 +2,20 @@ import { useEffect, useRef, useState } from "react";
 import { ControlPanel } from "./components/ControlPanel";
 import { CoverPreview } from "./components/CoverPreview";
 import { useExportImage } from "./hooks/useExportImage";
-import { UnsplashPhoto } from "./shared/interfaces";
 import { useCoverStore } from "./store/useCoverStore";
-import { useUnsplash } from "./hooks/useUnsplash";
+import { getBgImageSrc } from "./utils/styleUtils";
 export default function App() {
   // Personal Details
-  const { firstName, lastName, jobTitle, email, phone, font, dividerColor, dividerWidth, panelColor, rightPanelOpacity, updateField } =
-    useCoverStore();
-  const { fetchUnsplashPhoto } = useUnsplash();
-  // Background Image state
-  const [bgSource, setBgSource] = useState<"unsplash" | "upload" | "url">("unsplash");
-  const [unsplashPhoto, setUnsplashPhoto] = useState<UnsplashPhoto | null>(null);
-  const [unsplashQuery, setUnsplashQuery] = useState("AI FRONTEND");
-  const [customUrl, setCustomUrl] = useState("");
-  const [uploadedFile, setUploadedFile] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    firstName,
+    lastName,
+    jobTitle,
+    bgSource,
+    uploadedFile,
+    customUrl,
+    unsplashPhoto,
+    updateField,
+  } = useCoverStore();
 
   // Interface State
 
@@ -30,8 +28,9 @@ export default function App() {
   const { exportAsPNG, exporting } = useExportImage();
 
   useEffect(() => {
-    updateField("backgroundUrl", getBgImageSrc());
+    updateField("backgroundUrl", getBgImageSrc(bgSource, uploadedFile, customUrl, unsplashPhoto));
   }, [bgSource, uploadedFile, customUrl, unsplashPhoto]);
+
 
   // Calculate Scale of Preview
   useEffect(() => {
@@ -55,19 +54,6 @@ export default function App() {
     };
   }, [showMockup]);
 
-  // Get background image source
-  const getBgImageSrc = () => {
-    if (bgSource === "upload" && uploadedFile) {
-      return uploadedFile;
-    }
-    if (bgSource === "url" && customUrl) {
-      return customUrl;
-    }
-    if (unsplashPhoto) {
-      return unsplashPhoto.urls.regular;
-    }
-    return "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1584&auto=format&fit=crop"; // fallback
-  };
 
   return (
     <div className="app-container">

@@ -26,7 +26,7 @@ interface CoverState {
   updateField: <K extends keyof Omit<CoverState, "updateField" | "fetchUnsplashPhoto">>(field: K, value: CoverState[K]) => void;
 }
 
-export const useCoverStore = create<CoverState>((set, get) => ({
+export const useCoverStore = create<CoverState>((set) => ({
   firstName: "Shay",
   lastName: "Doron",
   jobTitle: "Frontend/Full Stack Developer",
