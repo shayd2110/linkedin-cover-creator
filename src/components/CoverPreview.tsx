@@ -2,14 +2,8 @@ import { forwardRef } from "react";
 import { useCoverStore } from "../store/useCoverStore";
 
 export const CoverPreview = forwardRef<HTMLDivElement>((_, ref) => {
-  const { firstName, lastName, jobTitle, email, phone, dividerColor, font, rightPanelOpacity, backgroundUrl } = useCoverStore();
-
-  // נצטרך גם את המידע הזה מהסטור לעיצוב, לכן כדאי להוסיף אותו ב-useCoverStore.ts אם הוא חסר:
-  // dividerWidth, panelColor
-
-  // כרגע ניקח ערכי ברירת מחדל לאלה, עד שנעדכן את הסטור במלואו:
-  const dividerWidth = 50;
-  const panelColor = "#000000";
+  const { firstName, lastName, jobTitle, email, phone, dividerColor, dividerWidth, panelColor, font, rightPanelOpacity, backgroundUrl } =
+    useCoverStore();
 
   const getPanelBgColor = () => {
     const hex = panelColor.replace("#", "");
