@@ -1,27 +1,23 @@
-import { useEffect, useRef, useState, RefObject } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCoverStore } from "../store/useCoverStore";
 import { CoverPreview } from "./CoverPreview";
 import { LinkedInMockup } from "./LinkedInMockup";
+import { PreviewAreaProps } from "../shared/interfaces";
 
-interface PreviewAreaProps {
-  coverRef: RefObject<HTMLDivElement>;
-  showMockup: boolean;
-  setShowMockup: (show: boolean) => void;
-}
 
 export const PreviewArea: React.FC<PreviewAreaProps> = ({
-  coverRef,
-  showMockup,
-  setShowMockup,
+    coverRef,
+    showMockup,
+    setShowMockup,
 }) => {
-  const {
-    firstName,
-    lastName,
-  } = useCoverStore();
+    const {
+        firstName,
+        lastName,
+    } = useCoverStore();
 
-  // Interface State
-  const [previewScale, setPreviewScale] = useState(1);
-  const previewContainerRef = useRef<HTMLDivElement>(null);
+    // Interface State
+    const [previewScale, setPreviewScale] = useState(1);
+    const previewContainerRef = useRef<HTMLDivElement>(null);
 
 
     // Calculate Scale of Preview

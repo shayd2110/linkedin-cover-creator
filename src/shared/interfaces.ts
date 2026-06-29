@@ -1,3 +1,5 @@
+import { RefObject } from "react";
+
 export interface UnsplashPhoto {
   id: string;
   urls: {
@@ -29,6 +31,7 @@ export interface CoverState {
   font: string;
   rightPanelOpacity: number;
   backgroundUrl: string | null;
+
   // -- משתני התמונות שהוספנו --
   bgSource: "unsplash" | "upload" | "url";
   unsplashPhoto: UnsplashPhoto | null;
@@ -38,5 +41,12 @@ export interface CoverState {
   loading: boolean;
   error: string | null;
 
-  updateField: <K extends keyof Omit<CoverState, "updateField">>(field: K, value: CoverState[K]) => void;
+  updateField: <K extends keyof Omit<CoverState, "updateField" | "fetchUnsplashPhoto">>(field: K, value: CoverState[K]) => void;
+}
+
+
+export interface PreviewAreaProps {
+  coverRef: RefObject<HTMLDivElement>;
+  showMockup: boolean;
+  setShowMockup: (show: boolean) => void;
 }
