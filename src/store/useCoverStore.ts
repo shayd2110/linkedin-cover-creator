@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { CoverState, UnsplashPhoto } from "../shared/interfaces";
+import { CoverState } from "../shared/interfaces";
 
 
 
