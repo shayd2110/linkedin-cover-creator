@@ -5,6 +5,8 @@ import { LinkedInMockup } from "./LinkedInMockup";
 import { PreviewAreaProps } from "../shared/interfaces";
 
 
+import { useShallow } from "zustand/react/shallow";
+
 export const PreviewArea: React.FC<PreviewAreaProps> = ({
     coverRef,
     showMockup,
@@ -13,7 +15,12 @@ export const PreviewArea: React.FC<PreviewAreaProps> = ({
     const {
         firstName,
         lastName,
-    } = useCoverStore();
+    } = useCoverStore(
+        useShallow((state) => ({
+            firstName: state.firstName,
+            lastName: state.lastName,
+        }))
+    );
 
     // Interface State
     const [previewScale, setPreviewScale] = useState(1);

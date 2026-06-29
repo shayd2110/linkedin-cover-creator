@@ -1,7 +1,17 @@
+import { useShallow } from "zustand/react/shallow";
 import { useCoverStore } from "../store/useCoverStore";
 
 export const PersonalDetailsForm: React.FC = () => {
-  const { firstName, lastName, jobTitle, email, phone, updateField } = useCoverStore();
+  const { firstName, lastName, jobTitle, email, phone, updateField } = useCoverStore(
+    useShallow((state) => ({
+      firstName: state.firstName,
+      lastName: state.lastName,
+      jobTitle: state.jobTitle,
+      email: state.email,
+      phone: state.phone,
+      updateField: state.updateField,
+    }))
+  );
   return (
     <div className="tab-pane">
       <h3>Personal Details</h3>

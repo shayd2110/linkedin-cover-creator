@@ -1,9 +1,35 @@
 import { forwardRef } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { useCoverStore } from "../store/useCoverStore";
 
 export const CoverPreview = forwardRef<HTMLDivElement>((_, ref) => {
-  const { firstName, lastName, jobTitle, email, phone, dividerColor, dividerWidth, panelColor, font, rightPanelOpacity, backgroundUrl } =
-    useCoverStore();
+  const {
+    firstName,
+    lastName,
+    jobTitle,
+    email,
+    phone,
+    dividerColor,
+    dividerWidth,
+    panelColor,
+    font,
+    rightPanelOpacity,
+    backgroundUrl,
+  } = useCoverStore(
+    useShallow((state) => ({
+      firstName: state.firstName,
+      lastName: state.lastName,
+      jobTitle: state.jobTitle,
+      email: state.email,
+      phone: state.phone,
+      dividerColor: state.dividerColor,
+      dividerWidth: state.dividerWidth,
+      panelColor: state.panelColor,
+      font: state.font,
+      rightPanelOpacity: state.rightPanelOpacity,
+      backgroundUrl: state.backgroundUrl,
+    }))
+  );
 
   const getPanelBgColor = () => {
     const hex = panelColor.replace("#", "");

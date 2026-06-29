@@ -3,18 +3,26 @@ import { ControlPanel } from "./components/ControlPanel";
 import { Header } from "./components/Header";
 import { useExportImage } from "./hooks/useExportImage";
 import { useCoverStore } from "./store/useCoverStore";
+import { useShallow } from "zustand/react/shallow";
 import { getBgImageSrc } from "./utils/styleUtils";
 import { PreviewArea } from "./components/PreviewArea";
 export default function App() {
   // Personal Details
   const {
-
     bgSource,
     uploadedFile,
     customUrl,
     unsplashPhoto,
     updateField,
-  } = useCoverStore();
+  } = useCoverStore(
+    useShallow((state) => ({
+      bgSource: state.bgSource,
+      uploadedFile: state.uploadedFile,
+      customUrl: state.customUrl,
+      unsplashPhoto: state.unsplashPhoto,
+      updateField: state.updateField,
+    }))
+  );
 
 
   const [showMockup, setShowMockup] = useState(true);

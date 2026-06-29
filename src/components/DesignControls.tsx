@@ -1,8 +1,18 @@
 import { COLOR_PRESETS, GOOGLE_FONTS } from "../shared/consts";
+import { useShallow } from "zustand/react/shallow";
 import { useCoverStore } from "../store/useCoverStore";
 
 export const DesignControls: React.FC = () => {
-  const { font, dividerColor, dividerWidth, panelColor, rightPanelOpacity, updateField } = useCoverStore();
+  const { font, dividerColor, dividerWidth, panelColor, rightPanelOpacity, updateField } = useCoverStore(
+    useShallow((state) => ({
+      font: state.font,
+      dividerColor: state.dividerColor,
+      dividerWidth: state.dividerWidth,
+      panelColor: state.panelColor,
+      rightPanelOpacity: state.rightPanelOpacity,
+      updateField: state.updateField,
+    }))
+  );
   return (
     <div className="tab-pane">
       <h3>Design & Styling</h3>

@@ -1,9 +1,21 @@
 import { useRef } from "react";
 import { useUnsplash } from "../hooks/useUnsplash";
+import { useShallow } from "zustand/react/shallow";
 import { useCoverStore } from "../store/useCoverStore";
 
 export const ImageControls: React.FC = () => {
-  const { bgSource, unsplashQuery, unsplashPhoto, customUrl, uploadedFile, loading, error, updateField } = useCoverStore();
+  const { bgSource, unsplashQuery, unsplashPhoto, customUrl, uploadedFile, loading, error, updateField } = useCoverStore(
+    useShallow((state) => ({
+      bgSource: state.bgSource,
+      unsplashQuery: state.unsplashQuery,
+      unsplashPhoto: state.unsplashPhoto,
+      customUrl: state.customUrl,
+      uploadedFile: state.uploadedFile,
+      loading: state.loading,
+      error: state.error,
+      updateField: state.updateField,
+    }))
+  );
   const { fetchUnsplashPhoto } = useUnsplash();
   const fileInputRef = useRef<HTMLInputElement>(null);
   // Handle Unsplash Search Submit
