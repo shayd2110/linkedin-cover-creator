@@ -1,17 +1,8 @@
 import { COLOR_PRESETS, GOOGLE_FONTS } from "../shared/consts";
 import { useCoverStore } from "../store/useCoverStore";
 
-const {
-  font,
-  dividerColor,
-  dividerWidth,
-  panelColor,
-  rightPanelOpacity,
-
-  updateField,
-} = useCoverStore();
-
 export const DesignControls: React.FC = () => {
+  const { font, dividerColor, dividerWidth, panelColor, rightPanelOpacity, updateField } = useCoverStore();
   return (
     <div className="tab-pane">
       <h3>Design & Styling</h3>
