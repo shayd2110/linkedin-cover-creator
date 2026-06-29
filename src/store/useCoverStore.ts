@@ -8,6 +8,8 @@ interface CoverState {
   email: string;
   phone: string;
   dividerColor: string;
+  dividerWidth: number;
+  panelColor: string;
   font: string;
   rightPanelOpacity: number;
   backgroundUrl: string | null;
@@ -22,6 +24,8 @@ export const useCoverStore = create<CoverState>((set) => ({
   email: "your.email@example.com",
   phone: "050-0000000",
   dividerColor: "#00AEB3",
+  dividerWidth: 50,
+  panelColor: "#000000",
   font: "Sora",
   rightPanelOpacity: 0.85,
   backgroundUrl: null,

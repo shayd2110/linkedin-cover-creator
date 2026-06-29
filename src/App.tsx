@@ -7,18 +7,8 @@ import { useCoverStore } from "./store/useCoverStore";
 
 export default function App() {
   // Personal Details
-  const [firstName, setFirstName] = useState("Shay");
-  const [lastName, setLastName] = useState("Doron");
-  const [jobTitle, setJobTitle] = useState("Frontend/Full Stack Developer");
-  const [email, setEmail] = useState("shayd2110@gmail.com");
-  const [phone, setPhone] = useState("054-6676278");
-
-  // Aesthetic Controls
-  const [fontFamily, setFontFamily] = useState("Sora, sans-serif");
-  const [dividerColor, setDividerColor] = useState("#00AEB3");
-  const [dividerWidth, setDividerWidth] = useState(50); // percentage
-  const [panelColor, setPanelColor] = useState("#000000");
-  const [panelOpacity, setPanelOpacity] = useState(0.85);
+  const { firstName, lastName, jobTitle, email, phone, font, dividerColor, dividerWidth, panelColor, rightPanelOpacity, updateField } =
+    useCoverStore();
 
   // Background Image state
   const [bgSource, setBgSource] = useState<"unsplash" | "upload" | "url">("unsplash");
@@ -39,8 +29,6 @@ export default function App() {
   const coverRef = useRef<HTMLDivElement>(null);
   const previewContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const updateField = useCoverStore((state) => state.updateField);
 
   // Load Unsplash Photo
   const fetchUnsplashPhoto = async (queryStr: string = "") => {
@@ -72,9 +60,9 @@ export default function App() {
     updateField("email", email);
     updateField("phone", phone);
     updateField("dividerColor", dividerColor);
-    updateField("font", fontFamily);
-    updateField("rightPanelOpacity", panelOpacity);
-  }, [firstName, lastName, jobTitle, email, phone, dividerColor, fontFamily, panelOpacity]);
+    updateField("font", font);
+    updateField("rightPanelOpacity", rightPanelOpacity);
+  }, [firstName, lastName, jobTitle, email, phone, dividerColor, font, rightPanelOpacity]);
 
   useEffect(() => {
     fetchUnsplashPhoto(unsplashQuery);
@@ -168,7 +156,7 @@ export default function App() {
     const r = parseInt(hex.substring(0, 2), 16) || 0;
     const g = parseInt(hex.substring(2, 4), 16) || 0;
     const b = parseInt(hex.substring(4, 6), 16) || 0;
-    return `rgba(${r}, ${g}, ${b}, ${panelOpacity})`;
+    return `rgba(${r}, ${g}, ${b}, ${rightPanelOpacity})`;
   };
 
   // Export cover to PNG
@@ -249,11 +237,23 @@ export default function App() {
                 <div className="input-group-row">
                   <div className="input-field">
                     <label htmlFor="firstName">First Name</label>
-                    <input type="text" id="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="e.g. Shay" />
+                    <input
+                      type="text"
+                      id="firstName"
+                      value={firstName}
+                      onChange={(e) => updateField("firstName", e.target.value)}
+                      placeholder="e.g. Shay"
+                    />
                   </div>
                   <div className="input-field">
                     <label htmlFor="lastName">Last Name</label>
-                    <input type="text" id="lastName" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="e.g. Doron" />
+                    <input
+                      type="text"
+                      id="lastName"
+                      value={lastName}
+                      onChange={(e) => updateField("lastName", e.target.value)}
+                      placeholder="e.g. Doron"
+                    />
                   </div>
                 </div>
 
@@ -263,19 +263,25 @@ export default function App() {
                     type="text"
                     id="jobTitle"
                     value={jobTitle}
-                    onChange={(e) => setJobTitle(e.target.value)}
+                    onChange={(e) => updateField("jobTitle", e.target.value)}
                     placeholder="e.g. Frontend/Full Stack Developer"
                   />
                 </div>
 
                 <div className="input-field">
                   <label htmlFor="email">Email Address</label>
-                  <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="e.g. name@example.com" />
+                  <input
+                    type="email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => updateField("email", e.target.value)}
+                    placeholder="e.g. name@example.com"
+                  />
                 </div>
 
                 <div className="input-field">
                   <label htmlFor="phone">Phone Number</label>
-                  <input type="text" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="e.g. 054-6676278" />
+                  <input type="text" id="phone" value={phone} onChange={(e) => updateField("phone", e.target.value)} placeholder="e.g. 054-6676278" />
                 </div>
               </div>
             )}
@@ -288,7 +294,7 @@ export default function App() {
                 {/* Font Selection */}
                 <div className="input-field">
                   <label htmlFor="fontFamily">Font Typography</label>
-                  <select id="fontFamily" value={fontFamily} onChange={(e) => setFontFamily(e.target.value)}>
+                  <select id="fontFamily" value={font} onChange={(e) => updateField("font", e.target.value)}>
                     {GOOGLE_FONTS.map((font) => (
                       <option key={font.value} value={font.value}>
                         {font.name}
@@ -307,14 +313,14 @@ export default function App() {
                         type="button"
                         className={`color-preset-dot ${dividerColor === color.value ? "selected" : ""}`}
                         style={{ backgroundColor: color.value }}
-                        onClick={() => setDividerColor(color.value)}
+                        onClick={() => updateField("dividerColor", color.value)}
                         title={color.name}
                       />
                     ))}
                   </div>
                   <div className="custom-color-picker">
                     <span>Custom Color:</span>
-                    <input type="color" value={dividerColor} onChange={(e) => setDividerColor(e.target.value)} />
+                    <input type="color" value={dividerColor} onChange={(e) => updateField("dividerColor", e.target.value)} />
                   </div>
                 </div>
 
@@ -330,7 +336,7 @@ export default function App() {
                     min="10"
                     max="100"
                     value={dividerWidth}
-                    onChange={(e) => setDividerWidth(Number(e.target.value))}
+                    onChange={(e) => updateField("dividerColor", e.target.value)}
                   />
                 </div>
 
@@ -338,24 +344,24 @@ export default function App() {
                 <div className="input-field">
                   <div className="slider-header">
                     <label>Info Card Background</label>
-                    <input type="color" value={panelColor} onChange={(e) => setPanelColor(e.target.value)} />
+                    <input type="color" value={panelColor} onChange={(e) => updateField("panelColor", e.target.value)} />
                   </div>
                 </div>
 
                 {/* Card Opacity */}
                 <div className="input-field">
                   <div className="slider-header">
-                    <label htmlFor="panelOpacity">Card Opacity</label>
-                    <span>{Math.round(panelOpacity * 100)}%</span>
+                    <label htmlFor="rightPanelOpacity">Card Opacity</label>
+                    <span>{Math.round(rightPanelOpacity * 100)}%</span>
                   </div>
                   <input
                     type="range"
-                    id="panelOpacity"
+                    id="rightPanelOpacity"
                     min="0"
                     max="1"
                     step="0.05"
-                    value={panelOpacity}
-                    onChange={(e) => setPanelOpacity(Number(e.target.value))}
+                    value={rightPanelOpacity}
+                    onChange={(e) => updateField("rightPanelOpacity", Number(e.target.value))}
                   />
                 </div>
               </div>

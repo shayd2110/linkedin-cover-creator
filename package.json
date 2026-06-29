@@ -2,6 +2,7 @@
   "name": "linkedin-cover-creator",
   "description": "LinkedIn cover creator application, migrated from Scrimba starter package to React 18, Vite, and TypeScript.",
   "scripts": {
+    "start": "vite",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
