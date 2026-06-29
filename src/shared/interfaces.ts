@@ -32,7 +32,6 @@ export interface CoverState {
   rightPanelOpacity: number;
   backgroundUrl: string | null;
 
-  // -- משתני התמונות שהוספנו --
   bgSource: "unsplash" | "upload" | "url";
   unsplashPhoto: UnsplashPhoto | null;
   unsplashQuery: string;
@@ -43,7 +42,6 @@ export interface CoverState {
 
   updateField: <K extends keyof Omit<CoverState, "updateField" | "fetchUnsplashPhoto">>(field: K, value: CoverState[K]) => void;
 }
-
 
 export interface PreviewAreaProps {
   coverRef: RefObject<HTMLDivElement>;
