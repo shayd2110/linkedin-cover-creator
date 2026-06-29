@@ -4,12 +4,12 @@ import { CoverPreview } from "./components/CoverPreview";
 import { useExportImage } from "./hooks/useExportImage";
 import { UnsplashPhoto } from "./shared/interfaces";
 import { useCoverStore } from "./store/useCoverStore";
-
+import { useUnsplash } from "./hooks/useUnsplash";
 export default function App() {
   // Personal Details
   const { firstName, lastName, jobTitle, email, phone, font, dividerColor, dividerWidth, panelColor, rightPanelOpacity, updateField } =
     useCoverStore();
-
+  const { fetchUnsplashPhoto } = useUnsplash();
   // Background Image state
   const [bgSource, setBgSource] = useState<"unsplash" | "upload" | "url">("unsplash");
   const [unsplashPhoto, setUnsplashPhoto] = useState<UnsplashPhoto | null>(null);
@@ -29,32 +29,9 @@ export default function App() {
   const previewContainerRef = useRef<HTMLDivElement>(null);
   const { exportAsPNG, exporting } = useExportImage();
 
-  // Load Unsplash Photo
-  const fetchUnsplashPhoto = async (queryStr: string = "") => {
-    setLoading(true);
-    setError(null);
-    try {
-      const baseUrl = "https://apis.scrimba.com/unsplash/photos/random/?orientation=landscape";
-      const url = queryStr ? `${baseUrl}&query=${encodeURIComponent(queryStr)}` : baseUrl;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("Failed to fetch image from Unsplash");
-      const data = await res.json();
-      setUnsplashPhoto(data);
-    } catch (err: any) {
-      console.error(err);
-      setError("Could not load random image. Try a different query or upload a file.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     updateField("backgroundUrl", getBgImageSrc());
   }, [bgSource, uploadedFile, customUrl, unsplashPhoto]);
-
-  useEffect(() => {
-    fetchUnsplashPhoto(unsplashQuery);
-  }, []);
 
   // Calculate Scale of Preview
   useEffect(() => {
@@ -91,17 +68,6 @@ export default function App() {
     }
     return "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1584&auto=format&fit=crop"; // fallback
   };
-
-  // Convert Hex to RGBA
-  const getPanelBgColor = () => {
-    const hex = panelColor.replace("#", "");
-    const r = parseInt(hex.substring(0, 2), 16) || 0;
-    const g = parseInt(hex.substring(2, 4), 16) || 0;
-    const b = parseInt(hex.substring(4, 6), 16) || 0;
-    return `rgba(${r}, ${g}, ${b}, ${rightPanelOpacity})`;
-  };
-
-  // Export cover to PNG
 
   return (
     <div className="app-container">

@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useCoverStore } from "../store/useCoverStore";
 import { COLOR_PRESETS, GOOGLE_FONTS } from "../shared/consts";
 import { ControlPanelProps } from "../shared/interfaces";
+import { useUnsplash } from "../hooks/useUnsplash";
 
 export const ControlPanel: React.FC<ControlPanelProps> = ({ onDownload, exporting }) => {
   const [activeTab, setActiveTab] = useState<"content" | "style" | "background">("content");
@@ -24,9 +25,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ onDownload, exportin
     loading,
     error,
     updateField,
-    fetchUnsplashPhoto,
   } = useCoverStore();
-
+  const { fetchUnsplashPhoto } = useUnsplash();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // חיפוש Unsplash
