@@ -22,7 +22,6 @@ export const useUnsplash = () => {
         console.error("Unsplash Error:", err);
         updateField("error", "Could not load random image. Try a different query.");
       } finally {
-        // מסיימים טעינה בכל מקרה (הצלחה או כישלון)
         updateField("loading", false);
       }
     },
